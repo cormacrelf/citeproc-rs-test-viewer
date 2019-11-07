@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/citeproc-rs-test-viewer/static/css/main.77dabee9.chunk.css",
-    "main.js": "/citeproc-rs-test-viewer/static/js/main.a6c20b9a.chunk.js",
-    "main.js.map": "/citeproc-rs-test-viewer/static/js/main.a6c20b9a.chunk.js.map",
-    "runtime-main.js": "/citeproc-rs-test-viewer/static/js/runtime-main.450d5ebe.js",
-    "runtime-main.js.map": "/citeproc-rs-test-viewer/static/js/runtime-main.450d5ebe.js.map",
-    "static/js/2.9eb33a8c.chunk.js": "/citeproc-rs-test-viewer/static/js/2.9eb33a8c.chunk.js",
-    "static/js/2.9eb33a8c.chunk.js.map": "/citeproc-rs-test-viewer/static/js/2.9eb33a8c.chunk.js.map",
-    "static/js/3.23d8f055.chunk.js": "/citeproc-rs-test-viewer/static/js/3.23d8f055.chunk.js",
-    "static/js/3.23d8f055.chunk.js.map": "/citeproc-rs-test-viewer/static/js/3.23d8f055.chunk.js.map",
+    "main.js": "/citeproc-rs-test-viewer/static/js/main.aa0d22fe.chunk.js",
+    "main.js.map": "/citeproc-rs-test-viewer/static/js/main.aa0d22fe.chunk.js.map",
+    "runtime-main.js": "/citeproc-rs-test-viewer/static/js/runtime-main.35a03774.js",
+    "runtime-main.js.map": "/citeproc-rs-test-viewer/static/js/runtime-main.35a03774.js.map",
+    "static/js/2.b15285a7.chunk.js": "/citeproc-rs-test-viewer/static/js/2.b15285a7.chunk.js",
+    "static/js/2.b15285a7.chunk.js.map": "/citeproc-rs-test-viewer/static/js/2.b15285a7.chunk.js.map",
+    "static/js/3.1b3b7727.chunk.js": "/citeproc-rs-test-viewer/static/js/3.1b3b7727.chunk.js",
+    "static/js/3.1b3b7727.chunk.js.map": "/citeproc-rs-test-viewer/static/js/3.1b3b7727.chunk.js.map",
     "index.html": "/citeproc-rs-test-viewer/index.html",
-    "precache-manifest.3aec27d42535a6e199c71a34c2bea040.js": "/citeproc-rs-test-viewer/precache-manifest.3aec27d42535a6e199c71a34c2bea040.js",
+    "precache-manifest.de35eeac9bea2a0330c42d15b88f3787.js": "/citeproc-rs-test-viewer/precache-manifest.de35eeac9bea2a0330c42d15b88f3787.js",
     "service-worker.js": "/citeproc-rs-test-viewer/service-worker.js",
     "static/css/main.77dabee9.chunk.css.map": "/citeproc-rs-test-viewer/static/css/main.77dabee9.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.450d5ebe.js",
-    "static/js/2.9eb33a8c.chunk.js",
+    "static/js/runtime-main.35a03774.js",
+    "static/js/2.b15285a7.chunk.js",
     "static/css/main.77dabee9.chunk.css",
-    "static/js/main.a6c20b9a.chunk.js"
+    "static/js/main.aa0d22fe.chunk.js"
   ]
 }
