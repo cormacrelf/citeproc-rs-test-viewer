@@ -1,5 +1,11 @@
 import React from 'react';
-import { Router, Link, RouteComponentProps } from "@reach/router"
+import {
+    HashRouter,
+    Switch,
+    Route,
+    Link,
+    useParams,
+} from "react-router-dom";
 import './App.css';
 import { BaseStyles, CounterLabel, Box, Heading, BorderBox, BranchName, Flex, StyledOcticon } from '@primer/components'
 import { Text } from '@primer/components'
@@ -140,36 +146,53 @@ const FetchAndRender = ({ commitRef }: { commitRef: CommitRef }) => {
     </Box>;
 };
 
-type Routed<T> = RouteComponentProps & Partial<T>;
-// </T>
-
 const Nav = () => {
     return <Flex>
         <Link to="/" ><BranchName as="span">master</BranchName></Link>
     </Flex>;
 }
 
-const Branch = (props: Routed<{ branch: string }>) => {
+const Master = () => {
+    const branch = "master";
     return <Box m={4} p={4}>
-        { props.branch ? <FetchAndRender commitRef={{ type: "branches", ref: props.branch }} /> : null }
+        { branch ? <FetchAndRender commitRef={{ type: "branches", ref: branch }} /> : null }
     </Box>
 };
 
-const Commit = (props: Routed<{ commit: string }>) => {
+const Branch = () => {
+    const { branch } = useParams();
     return <Box m={4} p={4}>
-        { props.commit ? <FetchAndRender commitRef={{ type: "commits", ref: props.commit }} /> : null }
+        { branch ? <FetchAndRender commitRef={{ type: "branches", ref: branch }} /> : null }
+    </Box>
+};
+
+const Commit = () => {
+    const { commit } = useParams();
+    return <Box m={4} p={4}>
+        { commit ? <FetchAndRender commitRef={{ type: "commits", ref: commit }} /> : null }
     </Box>
 };
 
 const App: React.FC = () => {
     return (
         <BaseStyles>
-            <Nav />
-            <Router>
-                <Branch path="/" branch="master" />
-                <Branch path="/branches/:branch" />
-                <Commit path="/commits/:commit" />
-            </Router>
+            <HashRouter>
+                <Nav />
+                <Switch>
+                    <Route path="/">
+                        <Master />
+                    </Route>
+                    <Route path="/branches/:branch">
+                        <Branch/>
+                    </Route>
+                    <Route path="/commits/:commit">
+                        <Commit/>
+                    </Route>
+                    <Route>
+                        {"Route not found"}
+                    </Route>
+                </Switch>
+            </HashRouter>
         </BaseStyles>
     );
 }
