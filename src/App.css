@@ -20,6 +20,10 @@
 .App-single {
 }
 
+.hidden {
+    display: none;
+}
+
 .stdout {
     overflow-x: auto;
     /* color: white; */
