@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    HashRouter,
+    BrowserRouter as Router,
     Switch,
     Route,
     Link,
@@ -91,7 +91,7 @@ const Render = ({ single, cref }: { single: TestSummary, cref: CommitRef }) => {
     </Box>;
 }
 
-let S3_PREFIX = "http://citeproc-rs-test-results.s3-website-ap-southeast-2.amazonaws.com/";
+let S3_PREFIX = "https://citeproc-rs-test-results.cormacrelf.net/";
 async function fetchSingle(path: string) {
     let res = await fetch(S3_PREFIX + ".snapshots/" + path);
     let text = await res.text();
@@ -176,7 +176,7 @@ const Commit = () => {
 const App: React.FC = () => {
     return (
         <BaseStyles>
-            <HashRouter>
+            <Router basename={process.env.PUBLIC_URL}>
                 <Nav />
                 <Switch>
                     <Route path="/">
@@ -192,7 +192,7 @@ const App: React.FC = () => {
                         {"Route not found"}
                     </Route>
                 </Switch>
-            </HashRouter>
+            </Router>
         </BaseStyles>
     );
 }
