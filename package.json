@@ -2,6 +2,7 @@
   "name": "viewer",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://cormacrelf.github.io/citeproc-rs-test-viewer/",
   "dependencies": {
     "@primer/components": "^15.0.1",
     "@primer/octicons": "^9.2.0",
