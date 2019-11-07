@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/citeproc-rs-test-viewer/static/css/main.77dabee9.chunk.css",
-    "main.js": "/citeproc-rs-test-viewer/static/js/main.aa0d22fe.chunk.js",
-    "main.js.map": "/citeproc-rs-test-viewer/static/js/main.aa0d22fe.chunk.js.map",
+    "main.js": "/citeproc-rs-test-viewer/static/js/main.522588d0.chunk.js",
+    "main.js.map": "/citeproc-rs-test-viewer/static/js/main.522588d0.chunk.js.map",
     "runtime-main.js": "/citeproc-rs-test-viewer/static/js/runtime-main.35a03774.js",
     "runtime-main.js.map": "/citeproc-rs-test-viewer/static/js/runtime-main.35a03774.js.map",
-    "static/js/2.b15285a7.chunk.js": "/citeproc-rs-test-viewer/static/js/2.b15285a7.chunk.js",
-    "static/js/2.b15285a7.chunk.js.map": "/citeproc-rs-test-viewer/static/js/2.b15285a7.chunk.js.map",
+    "static/js/2.35a1e749.chunk.js": "/citeproc-rs-test-viewer/static/js/2.35a1e749.chunk.js",
+    "static/js/2.35a1e749.chunk.js.map": "/citeproc-rs-test-viewer/static/js/2.35a1e749.chunk.js.map",
     "static/js/3.1b3b7727.chunk.js": "/citeproc-rs-test-viewer/static/js/3.1b3b7727.chunk.js",
     "static/js/3.1b3b7727.chunk.js.map": "/citeproc-rs-test-viewer/static/js/3.1b3b7727.chunk.js.map",
     "index.html": "/citeproc-rs-test-viewer/index.html",
-    "precache-manifest.de35eeac9bea2a0330c42d15b88f3787.js": "/citeproc-rs-test-viewer/precache-manifest.de35eeac9bea2a0330c42d15b88f3787.js",
+    "precache-manifest.5f2edf0c95a75c511ac181e880c9cf43.js": "/citeproc-rs-test-viewer/precache-manifest.5f2edf0c95a75c511ac181e880c9cf43.js",
     "service-worker.js": "/citeproc-rs-test-viewer/service-worker.js",
     "static/css/main.77dabee9.chunk.css.map": "/citeproc-rs-test-viewer/static/css/main.77dabee9.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.35a03774.js",
-    "static/js/2.b15285a7.chunk.js",
+    "static/js/2.35a1e749.chunk.js",
     "static/css/main.77dabee9.chunk.css",
-    "static/js/main.aa0d22fe.chunk.js"
+    "static/js/main.522588d0.chunk.js"
   ]
 }
