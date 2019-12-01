@@ -228,14 +228,14 @@ const App: React.FC = () => {
             <Router basename={process.env.PUBLIC_URL}>
                 <Nav />
                 <Switch>
-                    <Route path="/">
-                        <Master />
-                    </Route>
                     <Route path="/branches/:branch">
                         <Branch/>
                     </Route>
                     <Route path="/commits/:commit">
                         <Commit/>
+                    </Route>
+                    <Route path="/">
+                        <Master />
                     </Route>
                     <Route>
                         {"Route not found"}
