@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "390b46d793132aba996a363f28871272",
+    "revision": "c360def1b0df149512b725b639732286",
     "url": "/citeproc-rs-test-viewer/index.html"
   },
   {
-    "revision": "6b3cc428f7b54f526476",
+    "revision": "ca192279ebb28a94d249",
     "url": "/citeproc-rs-test-viewer/static/css/main.62a644ea.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/citeproc-rs-test-viewer/static/js/3.1b3b7727.chunk.js"
   },
   {
-    "revision": "6b3cc428f7b54f526476",
-    "url": "/citeproc-rs-test-viewer/static/js/main.2c878c2f.chunk.js"
+    "revision": "ca192279ebb28a94d249",
+    "url": "/citeproc-rs-test-viewer/static/js/main.9e215a3d.chunk.js"
   },
   {
     "revision": "c6b2814a92ac5e184ada",

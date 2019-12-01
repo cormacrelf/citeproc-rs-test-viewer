@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/citeproc-rs-test-viewer/precache-manifest.b41cbcbecac82c3da3afec9a2f343ad6.js"
+  "/citeproc-rs-test-viewer/precache-manifest.69fb55ae200d0692857b170ffa7445ea.js"
 );
 
 self.addEventListener('message', (event) => {
