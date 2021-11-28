@@ -168,6 +168,15 @@ async function fetchSingle(url: string) {
 
 class CommitRef {
     constructor(public type: "commits" | "branches" | "url", public ref: string) { }
+    kind() {
+        if (this.type === "commits") {
+            return "commit"
+        } else if (this.type === "branches") {
+            return "branch"
+        } else {
+            return this.type
+        }
+    }
     url(): string {
         if (this.type === "url") {
             return this.ref;
@@ -211,7 +220,7 @@ const FetchAndRender = ({ commitRef }: { commitRef: CommitRef }) => {
     }
     return <Box>
         <Heading>
-            <BranchName className="branch-heading" href={commitRef.treeUrl()}>{commitRef.describe()}</BranchName>
+            {commitRef.kind()} <BranchName className="branch-heading" href={commitRef.treeUrl()}>{commitRef.ref}</BranchName>
             <br />
             citeproc-rs test results
         </Heading>
@@ -239,9 +248,11 @@ function useQuery() {
     return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-const Hosted = () => {
-    const query = useQuery();
-    const url = query.get("url");
+const Hosted = ({ url }: { url?: string }) => {
+    if (!url) {
+        const query = useQuery();
+        url = query.get("url") || "/no-url?-provided";
+    }
     return <Box m={4} p={4}>
         {url ? <FetchAndRender commitRef={new CommitRef("url", url)} /> : null}
     </Box>
@@ -276,6 +287,13 @@ const App: React.FC = () => {
                     <Route path="/url">
                         <Hosted />
                     </Route>
+                    {process.env.HOSTED_SNAPSHOT
+                        ? (
+                            <Route path="/">
+                                <Hosted url={process.env.HOSTED_SNAPSHOT} />
+                            </Route>
+                        )
+                        : null}
                     <Route path="/">
                         <Master />
                     </Route>

@@ -12,6 +12,7 @@ function getEnv(name) {
 }
 
 getEnv("PUBLIC_URL");
+getEnv("HOSTED_SNAPSHOT");
 
 const buildOptions = {
     entryPoints: ['src/index.tsx'],
