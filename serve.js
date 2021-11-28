@@ -1,20 +1,9 @@
 const esbuild = require('esbuild');
 const http = require('http');
+const buildOptions = require('./build.js');
 
 // Start esbuild's server on a random local port
-esbuild.serve({
-    servedir: "./build",
-}, {
-    // ... your build options go here ...
-    entryPoints: ['src/index.tsx'],
-    outdir: "./build",
-    bundle: true,
-    minify: true,
-    sourcemap: true,
-    define: {
-        "process.env.PUBLIC_URL": '""',
-    },
-}).then(result => {
+esbuild.serve({ servedir: "./build" }, buildOptions).then(result => {
     // The result tells us where esbuild's local server is
     const { host, port } = result
 

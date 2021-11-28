@@ -18,11 +18,10 @@
   },
   "scripts": {
     "copy": "rm -rf build && cp -r public build",
-    "index": "yarn run copy && sed s,%PUBLIC_URL%,,g < public/index.html > build/index.html",
-    "index-gh": "yarn run copy && sed s,%PUBLIC_URL%,/citeproc-rs-test-viewer,g < public/index.html > build/index.html",
-    "build": "esbuild src/index.tsx --bundle --minify --outdir=build --define:process.env.PUBLIC_URL=\\\"\\\"",
+    "index": "yarn run copy && sed s,%PUBLIC_URL%,$PUBLIC_URL,g < public/index.html > build/index.html",
+    "build": "yarn run index && yarn node build.js",
     "serve": "yarn run index && yarn node serve.js",
-    "predeploy": "yarn run index-gh && yarn run build --define:process.env.PUBLIC_URL=\\\"/citeproc-rs-test-viewer\\\" && cp build/index.html build/404.html",
+    "predeploy": "env PUBLIC_URL=/citeproc-rs-test-viewer yarn run build && cp build/index.html build/404.html",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
