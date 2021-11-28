@@ -3,10 +3,15 @@ const esbuild = require('esbuild');
 const define = {}
 for (const k in process.env) {
     if (k === "PUBLIC_URL") {
-        define[`process.env.${k}`] = JSON.stringify(process.env[k]);
     }
 }
-console.log("PUBLIC_URL", define['process.env.PUBLIC_URL'])
+
+function getEnv(name) {
+    define[`process.env.${name}`] = JSON.stringify(process.env[name] || "");
+    console.log(name, define['process.env.' + name])
+}
+
+getEnv("PUBLIC_URL");
 
 const buildOptions = {
     entryPoints: ['src/index.tsx'],

@@ -17,7 +17,7 @@
     "typescript": "3.7.2"
   },
   "scripts": {
-    "copy": "rm -rf build && cp -r public build",
+    "copy": "rm -rf build && cp -R public build",
     "index": "yarn run copy && sed s,%PUBLIC_URL%,$PUBLIC_URL,g < public/index.html > build/index.html",
     "build": "yarn run index && yarn node build.js",
     "serve": "yarn run index && yarn node serve.js",

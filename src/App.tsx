@@ -1,10 +1,11 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link,
     useParams,
+    useLocation,
 } from "react-router-dom";
 import './App.css';
 import { BaseStyles, CounterLabel, Box, Heading, BorderBox, BranchName, Flex, StyledOcticon, FilterList, Button } from '@primer/components'
@@ -49,7 +50,7 @@ const TestFailure = ({ test, cref }: { test: Test, cref: CommitRef }) => {
         html = ANSI_UP.ansi_to_html(stdout);
     }
     let lines = html.split("\n").filter(line => {
-        let match  = line.match(/assertion failed: `\(left == right\)`/)
+        let match = line.match(/assertion failed: `\(left == right\)`/)
             || line.match("RUST_BACKTRACE=1")
             || line.match("<span style=\"font-weight:bold\">Diff</span>")
             || line.match("crates/citeproc/tests/suite.rs");
@@ -68,12 +69,12 @@ const TestFailure = ({ test, cref }: { test: Test, cref: CommitRef }) => {
             <a className="anchor" href={testUrl(cref, test.name)}>
                 <StyledOcticon icon={OLink} />
             </a>
-            {" "} { test.name }
+            {" "} {test.name}
         </Heading>
         <Box className="stdout">
-            <pre><code dangerouslySetInnerHTML={{__html: lines}}></code></pre>
+            <pre><code dangerouslySetInnerHTML={{ __html: lines }}></code></pre>
         </Box>
-     </BorderBox>;
+    </BorderBox>;
 };
 
 const Render = ({ single, cref }: { single: TestSummary, cref: CommitRef }) => {
@@ -110,7 +111,7 @@ const Render = ({ single, cref }: { single: TestSummary, cref: CommitRef }) => {
     }, [failedKeys, filter, filter_])
 
     let prefixFilters = Object.keys(prefixes).map(prefix => {
-        return <FilterList.Item selected={prefix===filter} count={prefixes[prefix]} onClick={() => setFilter(prefix)}>{ prefix }</FilterList.Item>
+        return <FilterList.Item selected={prefix === filter} count={prefixes[prefix]} onClick={() => setFilter(prefix)}>{prefix}</FilterList.Item>
     })
     let failedOut = failedKeys
         .map(key => {
@@ -122,9 +123,9 @@ const Render = ({ single, cref }: { single: TestSummary, cref: CommitRef }) => {
     return (
         <>
             <Box>
-                <Text><CounterLabel>{ Object.keys(ok).length }</CounterLabel> ok, <CounterLabel>{ failedKeys.length }</CounterLabel> failed, <CounterLabel>{ Object.keys(ignored).length }</CounterLabel> ignored</Text>
-                { filter !== null && 
-                  <Button onClick={() => setFilter(null)}>Clear filters</Button> }
+                <Text><CounterLabel>{Object.keys(ok).length}</CounterLabel> ok, <CounterLabel>{failedKeys.length}</CounterLabel> failed, <CounterLabel>{Object.keys(ignored).length}</CounterLabel> ignored</Text>
+                {filter !== null &&
+                    <Button onClick={() => setFilter(null)}>Clear filters</Button>}
             </Box>
             <Flex mb={4}>
                 <Box minWidth='220px' pr={4} pt={4}>
@@ -133,16 +134,16 @@ const Render = ({ single, cref }: { single: TestSummary, cref: CommitRef }) => {
                     </FilterList>
                 </Box>
                 <Box pt={4}>
-                { failedOut }
+                    {failedOut}
                 </Box>
             </Flex>
         </>
     );
 }
 
-let S3_PREFIX = "https://citeproc-rs-test-results.cormacrelf.net/.snapshots/";
-async function fetchSingle(path: string) {
-    let res = await fetch(S3_PREFIX + path);
+async function fetchSingle(url: string) {
+    console.warn(url);
+    let res = await fetch(url);
     let text = await res.text();
     let events = text.split("\n").filter(x => x.length > 0).map(eventJSON => JSON.parse(eventJSON)) as TestEvent[];
     let summary = {
@@ -165,31 +166,54 @@ async function fetchSingle(path: string) {
     return summary;
 }
 
-type CommitRef = { type: "commits", ref: string } | { type: "branches", ref: string };
+class CommitRef {
+    constructor(public type: "commits" | "branches" | "url", public ref: string) { }
+    url(): string {
+        if (this.type === "url") {
+            return this.ref;
+        } else {
+            let S3_PREFIX = "https://citeproc-rs-test-results.cormacrelf.net/.snapshots/";
+            return `${S3_PREFIX}${this.type}/${this.ref}`
+        }
+    }
+    describe() {
+        if (this.type === "url") {
+            return `url ${this.ref}`
+        } else {
+            return `${this.type} ${this.ref}`
+        }
+    }
+    treeUrl() {
+        if (this.type === "url") {
+            return this.ref
+        } else {
+            return "https://github.com/cormacrelf/citeproc-rs/tree/" + this.ref
+        }
+    }
+    fetch(): Promise<TestSummary> {
+        return fetchSingle(this.url())
+    }
+}
 
 const FetchAndRender = ({ commitRef }: { commitRef: CommitRef }) => {
     const [single, setSingle] = useState<TestSummary>();
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        fetchSingle(commitRef.type + "/" + commitRef.ref)
-            .then(setSingle)
-            .catch(e => {
-                setError(e);
-            });
-    }, [commitRef.ref, commitRef.type]);
+        commitRef.fetch().then(setSingle).catch(e => setError(e));
+    }, [commitRef.url()]);
 
     if (error) {
-        return <Text>Error loading { commitRef.ref }: <pre><code>{ error.toString() }</code></pre></Text>
+        return <Text>Error loading {commitRef.describe()}: <pre><code>{error.toString()}</code></pre></Text>
     }
     if (!single) {
         return <Text>Loading...</Text>
     }
     return <Box>
         <Heading>
-            <BranchName className="branch-heading" href={"https://github.com/cormacrelf/citeproc-rs/tree/" + commitRef.ref}>{ commitRef.ref }</BranchName>
-                <br />
-            citeproc-rs test results 
+            <BranchName className="branch-heading" href={commitRef.treeUrl()}>{commitRef.describe()}</BranchName>
+            <br />
+            citeproc-rs test results
         </Heading>
         <Render single={single} cref={commitRef} />
     </Box>;
@@ -201,24 +225,39 @@ const Nav = () => {
     </Flex>;
 }
 
+type Params = { commit?: string, branch?: string, path?: string };
+
 const Master = () => {
-    const branch = "master";
+    const branch = new CommitRef("branches", "master");
     return <Box m={4} p={4}>
-        { branch ? <FetchAndRender commitRef={{ type: "branches", ref: branch }} /> : null }
+        {branch ? <FetchAndRender commitRef={branch} /> : null}
+    </Box>
+};
+
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
+const Hosted = () => {
+    const query = useQuery();
+    const url = query.get("url");
+    return <Box m={4} p={4}>
+        {url ? <FetchAndRender commitRef={new CommitRef("url", url)} /> : null}
     </Box>
 };
 
 const Branch = () => {
-    const { branch } = useParams();
+    const { branch } = useParams<Params>();
     return <Box m={4} p={4}>
-        { branch ? <FetchAndRender commitRef={{ type: "branches", ref: branch }} /> : null }
+        {branch ? <FetchAndRender commitRef={new CommitRef("branches", branch)} /> : null}
     </Box>
 };
 
 const Commit = () => {
-    const { commit } = useParams();
+    const { commit } = useParams<Params>();
     return <Box m={4} p={4}>
-        { commit ? <FetchAndRender commitRef={{ type: "commits", ref: commit }} /> : null }
+        {commit ? <FetchAndRender commitRef={new CommitRef("commits", commit)} /> : null}
     </Box>
 };
 
@@ -229,10 +268,13 @@ const App: React.FC = () => {
                 <Nav />
                 <Switch>
                     <Route path="/branches/:branch">
-                        <Branch/>
+                        <Branch />
                     </Route>
                     <Route path="/commits/:commit">
-                        <Commit/>
+                        <Commit />
+                    </Route>
+                    <Route path="/url">
+                        <Hosted />
                     </Route>
                     <Route path="/">
                         <Master />
