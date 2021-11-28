@@ -167,12 +167,14 @@ async function fetchSingle(url: string) {
 }
 
 class CommitRef {
-    constructor(public type: "commits" | "branches" | "url", public ref: string) { }
+    constructor(public type: "commits" | "branches" | "url" | "pulls", public ref: string) { }
     kind() {
         if (this.type === "commits") {
             return "commit"
         } else if (this.type === "branches") {
             return "branch"
+        } else if (this.type === "pulls") {
+            return "pull request"
         } else {
             return this.type
         }
@@ -186,17 +188,15 @@ class CommitRef {
         }
     }
     describe() {
-        if (this.type === "url") {
-            return `url ${this.ref}`
-        } else {
-            return `${this.type} ${this.ref}`
-        }
+        return `${this.kind()} ${this.ref}`
     }
     treeUrl() {
         if (this.type === "url") {
             return this.ref
+        } else if (this.type === "pulls") {
+            return `https://github.com/zotero/citeproc-rs/pulls/${this.ref}`
         } else {
-            return "https://github.com/cormacrelf/citeproc-rs/tree/" + this.ref
+            return "https://github.com/zotero/citeproc-rs/tree/" + this.ref
         }
     }
     fetch(): Promise<TestSummary> {
@@ -234,7 +234,7 @@ const Nav = () => {
     </Flex>;
 }
 
-type Params = { commit?: string, branch?: string, path?: string };
+type Params = { commit?: string, branch?: string, path?: string, pull?: string };
 
 const Master = () => {
     const branch = new CommitRef("branches", "master");
@@ -265,6 +265,13 @@ const Branch = () => {
     </Box>
 };
 
+const PullRequest = () => {
+    const { pull } = useParams<Params>();
+    return <Box m={4} p={4}>
+        {pull ? <FetchAndRender commitRef={new CommitRef("pulls", pull)} /> : null}
+    </Box>
+};
+
 const Commit = () => {
     const { commit } = useParams<Params>();
     return <Box m={4} p={4}>
@@ -280,6 +287,9 @@ const App: React.FC = () => {
                 <Switch>
                     <Route path="/branches/:branch">
                         <Branch />
+                    </Route>
+                    <Route path="/pulls/:pull">
+                        <PullRequest />
                     </Route>
                     <Route path="/commits/:commit">
                         <Commit />
